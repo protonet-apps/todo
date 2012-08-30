@@ -33,6 +33,11 @@ unless DB.table_exists? :items
   end
 end
 
+helpers do
+  include Rack::Utils
+  alias_method :h, :escape_html
+end
+
 get '/' do
   @items = DB[:items].all
   haml :index, :format => :html5

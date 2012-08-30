@@ -16,7 +16,7 @@
         %p Be awesome
       - @items.each do |item|
         %li{:class => 'pending'}
-          %p= item[:title]
+          %p= h(item[:title])
       %li{:class => 'new'}
         %form{:method => 'POST', :action => '/'}
           %input{:type => 'text', :name => 'title'}
