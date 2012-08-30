@@ -1,0 +1,23 @@
+!!!
+%html
+  %head
+    %title Protonet To-do Manager
+  %body
+    %h2 To-do - it's yours [to do]
+    
+    %p Keep all of your todos readily accessible without giving up the data :)
+    
+    %p
+      Debug info: you are
+      = 'not logged in'
+
+    %ul
+      %li{:class => 'done'}
+        %p Be awesome
+      - @items.each do |item|
+        %li{:class => 'pending'}
+          %p= item[:title]
+      %li{:class => 'new'}
+        %form{:method => 'POST', :action => '/'}
+          %input{:type => 'text', :name => 'title'}
+          %input{:type => 'submit', :value => 'Add item'}
