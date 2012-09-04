@@ -8,7 +8,7 @@
   "title": "To-Do List",
   "description": "Keep your life in order with a simple to-do list",
   "version": "0.0.1",
-  "homepage": "https://protonet-apps.github.com/todo",
+  "homepage": "http://protonet-apps.github.com/todo",
   "repository": {
     "type": "git",
     "url": "git://github.com/protonet-apps/todo.git"
