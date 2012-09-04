@@ -2,36 +2,15 @@ require 'sinatra'
 require 'sequel'
 require 'logger'
 
-DB = if ENV.key? 'DATABASE_URL'
-  Sequel.connect ENV['DATABASE_URL']
+if ENV.key? 'DATABASE_URL'
+  DB = Sequel.connect ENV['DATABASE_URL']
+  raise 'Not migrated' unless DB.table_exists?(:items)
 else
-  Sequel.sqlite
+  DB = Sequel.sqlite
+  require './migrate'
 end
-DB.loggers << Logger.new(STDOUT)
+DB.loggers << Logger.new(STDOUT) if ENV['RACK_ENV'] != 'production'
 
-unless DB.table_exists? :items
-  DB.create_table :items do
-    primary_key :id
-
-    Fixnum :user_id, :null => false
-    index :user_id
-    String :title, :null => false
-
-    DateTime :created_at, :null => false
-    index :created_at
-    DateTime :updated_at
-    DateTime :completed_at
-  end
-
-  [
-    'Make a pretty to-do template',
-    'Apply the template to the other apps too',
-    'Make to-dos actually work',
-    'Party hard',
-  ].each do |seed|
-    DB[:items] << {:user_id => 0, :title => seed, :created_at => Time.now}
-  end
-end
 
 helpers do
   include Rack::Utils
